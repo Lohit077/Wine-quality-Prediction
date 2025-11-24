@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Quality Predictor</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f0f0f0;
+            --card-color: #ffffff;
+            --text-color: #2c3e50;
+            --result-bg: #e6f9e6;
+            --result-text: #155724;
+        }
+
+        body.dark {
+            --bg-color: #121212;
+            --card-color: #1f1f1f;
+            --text-color: #f0f0f0;
+            --result-bg: #1e4023;
+            --result-text: #a6f3a6;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            margin: 0;
+            transition: background 0.5s, color 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-card {
+            background: var(--card-color);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 650px;
+            width: 100%;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        .btn-success {
+            width: 100%;
+            padding: 10px;
+            font-weight: 600;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            background: var(--result-bg);
+            border-left: 5px solid #28a745;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--result-text);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .theme-toggle button {
+            background: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle button:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button onclick="toggleTheme()">🌗 Toggle Theme</button>
+    </div>
+
+    <!-- Prediction Card -->
+    <div class="glass-card">
+        <h2>🍷 Wine Quality Prediction</h2>
+
+        <form method="POST" action="/predict">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">Fixed Acidity</label>
+                    <input type="text" name="fixed_acidity" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Volatile Acidity</label>
+                    <input type="text" name="volatile_acidity" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Citric Acid</label>
+                    <input type="text" name="citric_acid" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Residual Sugar</label>
+                    <input type="text" name="residual_sugar" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Chlorides</label>
+                    <input type="text" name="chlorides" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Free Sulfur Dioxide</label>
+                    <input type="text" name="free_sulfur_dioxide" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Total Sulfur Dioxide</label>
+                    <input type="text" name="total_sulfur_dioxide" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Density</label>
+                    <input type="text" name="density" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">pH</label>
+                    <input type="text" name="ph" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Sulphates</label>
+                    <input type="text" name="sulphates" class="form-control" required>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Alcohol</label>
+                    <input type="text" name="alcohol" class="form-control" required>
+                </div>
+
+                <div class="col-12">
+                    <input type="submit" value="Predict" class="btn btn-success mt-3">
+                </div>
+
+                {% if prediction_text %}
+                <div class="col-12">
+                    <div class="result-box">{{ prediction_text }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Toggle dark mode
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+        }
+    </script>
+</body>
+</html>
